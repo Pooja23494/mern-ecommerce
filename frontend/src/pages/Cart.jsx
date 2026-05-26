@@ -21,7 +21,7 @@ const Cart = () => {
   const shipping = subTotal > 299 ? 0 : 10;
   const tax = subTotal * 0.05; // 5%
   const total = subTotal + shipping + tax;
-  const API = "http://localhost:8000/api/v1/cart";
+  const API = `${import.meta.env.VITE_URL}/api/v1/cart`;
   const accessToken = localStorage.getItem("accessToken");
 
   console.log(accessToken);
