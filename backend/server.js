@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://mern-ecommerce-seven-nu.vercel.app",
+  "https://mern-ecommerce-pooja.vercel.app",
 ];
 
 app.use(
