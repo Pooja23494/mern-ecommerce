@@ -10,69 +10,93 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-200 py-10">
-      <div className="max-w-7xl mx-auto px-4 md:flex md:justify-between">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* info */}
-        <div className="mb-6 md:mb-0">
+        <div>
           <Link to="/">
-            <img src="/Ekart.png" alt="" className="w-32" />
+            <img src="/Ekart.png" alt="logo" className="w-32" />
           </Link>
-          <p className="mt-2 text-sm">
+
+          <p className="mt-3 text-sm leading-6">
             Powering Your World with the Best in Electronics.
           </p>
+
           <p className="mt-2 text-sm">
             123 Electronics St, Style City, NY 10001
           </p>
-          <p className="text-sm">Email: support@Zaptro.com</p>
-          <p className="text-sm">Phone: (123) 456-7890</p>
+
+          <p className="text-sm mt-1">Email: support@Zaptro.com</p>
+
+          <p className="text-sm mt-1">Phone: (123) 456-7890</p>
         </div>
-        {/* customer service link */}
-        <div className="mb-6 md:mb-0">
-          <h3 className="text-xl font-semibold">Customer Service</h3>
-          <ul className="mt-2 text-sm space-y-2">
-            <li>Contact Us</li>
-            <li>Shipping & Returns</li>
-            <li>FAQs</li>
-            <li>Order Tracking</li>
-            <li>Size Guide</li>
+
+        {/* customer service */}
+        <div>
+          <h3 className="text-lg md:text-xl font-semibold">Customer Service</h3>
+
+          <ul className="mt-3 text-sm space-y-2">
+            <li className="hover:text-pink-500 cursor-pointer">Contact Us</li>
+
+            <li className="hover:text-pink-500 cursor-pointer">
+              Shipping & Returns
+            </li>
+
+            <li className="hover:text-pink-500 cursor-pointer">FAQs</li>
+
+            <li className="hover:text-pink-500 cursor-pointer">
+              Order Tracking
+            </li>
+
+            <li className="hover:text-pink-500 cursor-pointer">Size Guide</li>
           </ul>
         </div>
-        {/* social media links */}
-        <div className="mb-6 md:mb-0">
-          <h3 className="text-xl font-semibold">Follow Us</h3>
-          <div className="flex space-x-4 mt-2">
-            <FaFacebook />
-            <FaInstagram />
-            <FaPinterest />
-            <FaTwitterSquare />
+
+        {/* social media */}
+        <div>
+          <h3 className="text-lg md:text-xl font-semibold">Follow Us</h3>
+
+          <div className="flex gap-4 mt-4 text-2xl">
+            <FaFacebook className="hover:text-pink-500 cursor-pointer transition" />
+
+            <FaInstagram className="hover:text-pink-500 cursor-pointer transition" />
+
+            <FaPinterest className="hover:text-pink-500 cursor-pointer transition" />
+
+            <FaTwitterSquare className="hover:text-pink-500 cursor-pointer transition" />
           </div>
         </div>
-        {/* newsletter subscription */}
+
+        {/* newsletter */}
         <div>
-          <h3 className="text-xl font-semibold">Stay in the loop</h3>
-          <p className="mt-2 text-sm">
-            {" "}
-            Subscribe to get special offers, free giveaways, and more
+          <h3 className="text-lg md:text-xl font-semibold">Stay in the loop</h3>
+
+          <p className="mt-3 text-sm leading-6">
+            Subscribe to get special offers, free giveaways, and more.
           </p>
-          <form action="" className="mt-4 flex">
+
+          <form className="mt-4 flex flex-col sm:flex-row gap-3">
             <input
               type="email"
               placeholder="Your email address"
-              className="w-full p-2 rounded-l-md bg-white text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-500"
+              className="w-full p-3 rounded-md sm:rounded-l-md sm:rounded-r-none bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
             />
+
             <button
               type="submit"
-              className="bg-pink-600 text-white px-4 rounded-r-md hover:bg-red-700"
+              className="bg-pink-600 text-white px-5 py-3 rounded-md sm:rounded-r-md sm:rounded-l-none hover:bg-red-700 transition"
             >
               Subscribe
             </button>
           </form>
         </div>
       </div>
+
       {/* bottom section */}
-      <div className="mt-8 border-t border-gray-700 pt-6 text-center text-sm">
+      <div className="mt-10 border-t border-gray-700 pt-6 text-center text-sm px-4">
         <p>
           &copy; {new Date().getFullYear()}{" "}
-          <span className="text-pink-600">Ekart</span>. All rights reserved
+          <span className="text-pink-500 font-semibold">Ekart</span>. All rights
+          reserved.
         </p>
       </div>
     </footer>

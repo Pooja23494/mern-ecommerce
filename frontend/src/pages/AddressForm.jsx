@@ -3,16 +3,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+
 import {
   addAddress,
   deleteAddresses,
   setCart,
   setSelectedAddress,
 } from "@/redux/productSlice.js";
+
 import axios from "axios";
 import React, { useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import { toast } from "sonner";
 
 const AddressForm = () => {
@@ -84,7 +88,6 @@ const AddressForm = () => {
     const accessToken = localStorage.getItem("accessToken");
 
     try {
-      // Create Order
       const { data } = await axios.post(
         `${import.meta.env.VITE_URL}/api/v1/order/create-order`,
         {
@@ -108,7 +111,6 @@ const AddressForm = () => {
         return toast.error("Something went wrong");
       }
 
-      // Razorpay SDK Check
       if (!window.Razorpay) {
         return toast.error("Razorpay SDK failed to load");
       }
@@ -178,9 +180,11 @@ const AddressForm = () => {
         },
 
         prefill: {
-          name: formData.fullName,
-          email: formData.email,
-          contact: formData.phone,
+          name: addresses[selectedAddress]?.fullName || formData.fullName,
+
+          email: addresses[selectedAddress]?.email || formData.email,
+
+          contact: addresses[selectedAddress]?.phone || formData.phone,
         },
 
         theme: {
@@ -190,7 +194,6 @@ const AddressForm = () => {
 
       const rzp = new window.Razorpay(options);
 
-      // Payment Failed Event
       rzp.on("payment.failed", async function () {
         try {
           await axios.post(
@@ -220,12 +223,14 @@ const AddressForm = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-5 lg:p-10">
-      <div className="grid grid-cols-1 lg:grid-cols-2 items-start gap-10 lg:gap-20 mt-10">
-        {/* Left Side */}
-        <div className="space-y-4 p-6 bg-white rounded-xl shadow-sm border">
+    <div className="max-w-7xl mx-auto px-4 py-24">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+        {/* LEFT SIDE */}
+        <div className="space-y-4 p-5 sm:p-6 bg-white rounded-2xl shadow-sm border">
           {showForm ? (
             <>
+              <h2 className="text-2xl font-bold mb-2">Shipping Address</h2>
+
               {/* Full Name */}
               <div>
                 <Label htmlFor="fullName">Full Name</Label>
@@ -237,6 +242,7 @@ const AddressForm = () => {
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="John Doe"
+                  className="mt-2"
                 />
               </div>
 
@@ -251,6 +257,7 @@ const AddressForm = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+91 9876543210"
+                  className="mt-2"
                 />
               </div>
 
@@ -265,6 +272,7 @@ const AddressForm = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="john@example.com"
+                  className="mt-2"
                 />
               </div>
 
@@ -279,11 +287,12 @@ const AddressForm = () => {
                   value={formData.address}
                   onChange={handleChange}
                   placeholder="123 Street, Area"
+                  className="mt-2"
                 />
               </div>
 
               {/* City & State */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="city">City</Label>
 
@@ -294,6 +303,7 @@ const AddressForm = () => {
                     value={formData.city}
                     onChange={handleChange}
                     placeholder="Navsari"
+                    className="mt-2"
                   />
                 </div>
 
@@ -307,12 +317,13 @@ const AddressForm = () => {
                     value={formData.state}
                     onChange={handleChange}
                     placeholder="Gujarat"
+                    className="mt-2"
                   />
                 </div>
               </div>
 
               {/* Zip & Country */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="zip">Zip Code</Label>
 
@@ -323,6 +334,7 @@ const AddressForm = () => {
                     value={formData.zip}
                     onChange={handleChange}
                     placeholder="396445"
+                    className="mt-2"
                   />
                 </div>
 
@@ -336,36 +348,40 @@ const AddressForm = () => {
                     value={formData.country}
                     onChange={handleChange}
                     placeholder="India"
+                    className="mt-2"
                   />
                 </div>
               </div>
 
-              <Button onClick={handleSave} className="w-full">
+              <Button
+                onClick={handleSave}
+                className="w-full bg-pink-600 hover:bg-pink-700 mt-4"
+              >
                 Save & Continue
               </Button>
             </>
           ) : (
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Saved Addresses</h2>
+              <h2 className="text-2xl font-bold">Saved Addresses</h2>
 
               {addresses.map((address, index) => (
                 <div
                   key={index}
                   onClick={() => dispatch(setSelectedAddress(index))}
-                  className={`border p-4 rounded-md cursor-pointer relative transition-all
+                  className={`border p-4 rounded-xl cursor-pointer relative transition-all
                   ${
                     selectedAddress === index
                       ? "border-pink-600 bg-pink-50"
                       : "border-gray-300"
                   }`}
                 >
-                  <p className="font-medium">{address.fullName}</p>
+                  <p className="font-semibold">{address.fullName}</p>
 
-                  <p>{address.phone}</p>
+                  <p className="text-sm text-gray-600 mt-1">{address.phone}</p>
 
-                  <p>{address.email}</p>
+                  <p className="text-sm text-gray-600">{address.email}</p>
 
-                  <p>
+                  <p className="text-sm mt-2 leading-6">
                     {address.address}, {address.city}, {address.state},{" "}
                     {address.zip}, {address.country}
                   </p>
@@ -380,7 +396,7 @@ const AddressForm = () => {
                         dispatch(setSelectedAddress(null));
                       }
                     }}
-                    className="absolute top-2 right-2 text-red-500 hover:text-red-700 text-sm"
+                    className="absolute top-3 right-3 text-red-500 hover:text-red-700 text-sm"
                   >
                     Delete
                   </button>
@@ -406,27 +422,27 @@ const AddressForm = () => {
           )}
         </div>
 
-        {/* Right Side - Order Summary */}
+        {/* RIGHT SIDE */}
         <div>
-          <Card className="w-full">
+          <Card className="w-full sticky top-24">
             <CardHeader>
               <CardTitle>Order Summary</CardTitle>
             </CardHeader>
 
             <CardContent className="space-y-4">
-              <div className="flex justify-between">
-                <span>Subtotal ({cart?.items?.length || 0}) items</span>
+              <div className="flex justify-between text-sm sm:text-base">
+                <span>Subtotal ({cart?.items?.length || 0} items)</span>
 
                 <span>₹{subtotal.toLocaleString("en-IN")}</span>
               </div>
 
-              <div className="flex justify-between">
+              <div className="flex justify-between text-sm sm:text-base">
                 <span>Shipping</span>
 
                 <span>₹{shipping}</span>
               </div>
 
-              <div className="flex justify-between">
+              <div className="flex justify-between text-sm sm:text-base">
                 <span>Tax (5%)</span>
 
                 <span>₹{tax}</span>

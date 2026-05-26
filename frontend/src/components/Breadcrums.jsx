@@ -10,19 +10,35 @@ import {
 
 const Breadcrums = ({ product }) => {
   return (
-    <div>
+    <div className="overflow-x-auto">
       <Breadcrumb>
-        <BreadcrumbList>
+        <BreadcrumbList className="flex-nowrap text-sm sm:text-base">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink
+              href="/"
+              className="whitespace-nowrap hover:text-pink-600"
+            >
+              Home
+            </BreadcrumbLink>
           </BreadcrumbItem>
+
           <BreadcrumbSeparator />
+
           <BreadcrumbItem>
-            <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+            <BreadcrumbLink
+              href="/products"
+              className="whitespace-nowrap hover:text-pink-600"
+            >
+              Products
+            </BreadcrumbLink>
           </BreadcrumbItem>
+
           <BreadcrumbSeparator />
+
           <BreadcrumbItem>
-            <BreadcrumbPage>{product.productName}</BreadcrumbPage>
+            <BreadcrumbPage className="max-w-45 sm:max-w-xs truncate">
+              {product.productName}
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

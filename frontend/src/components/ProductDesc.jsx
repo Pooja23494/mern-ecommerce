@@ -8,7 +8,9 @@ import { setCart } from "@/redux/productSlice";
 
 const ProductDesc = ({ product }) => {
   const accessToken = localStorage.getItem("accessToken");
+
   const dispatch = useDispatch();
+
   const addTocart = async (productId) => {
     try {
       const res = await axios.post(
@@ -20,6 +22,7 @@ const ProductDesc = ({ product }) => {
           },
         },
       );
+
       if (res.data.success) {
         toast.success("Product added to cart");
         dispatch(setCart(res.data.cart));
@@ -28,27 +31,40 @@ const ProductDesc = ({ product }) => {
       console.log(error);
     }
   };
+
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="font-bold text-4xl text-gray-800">
+    <div className="flex flex-col gap-5 w-full">
+      {/* product name */}
+      <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-gray-800 leading-tight">
         {product.productName}
       </h1>
-      <p className="text-gray-800">
+
+      {/* category & brand */}
+      <p className="text-gray-600 text-sm sm:text-base">
         {product.category} | {product.brand}
       </p>
-      <h2 className="text-pink-500 font-bold text-2xl">
+
+      {/* price */}
+      <h2 className="text-pink-500 font-bold text-2xl sm:text-3xl">
         ₹{product.productPrice}
       </h2>
-      <p className="line-clamp-12 text-muted-foreground">
+
+      {/* description */}
+      <p className="text-muted-foreground text-sm sm:text-base leading-7">
         {product.productDesc}
       </p>
-      <div className="flex gap-2 items-center w-75">
-        <p className="text-gray-800 font-semibold">Quantity: </p>
-        <Input type="number" className="w-14" defaultValue={1} />
+
+      {/* quantity */}
+      <div className="flex flex-wrap gap-3 items-center">
+        <p className="text-gray-800 font-semibold">Quantity:</p>
+
+        <Input type="number" className="w-20" defaultValue={1} min={1} />
       </div>
+
+      {/* button */}
       <Button
         onClick={() => addTocart(product._id)}
-        className="bg-pink-600 w-max cursor-pointer hover:bg-pink-700"
+        className="bg-pink-600 w-full sm:w-max cursor-pointer hover:bg-pink-700"
       >
         Add to Cart
       </Button>
