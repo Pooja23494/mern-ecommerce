@@ -26,6 +26,10 @@ app.use("/api/v1/order", orderRoute);
 
 // http://localhost:8000/api/v1/user/register
 
+app.get("/", (req, res) => {
+  res.send("Backend Running Successfully");
+});
+
 app.listen(PORT, () => {
   connectDB();
   console.log(`Server is listening at port : ${PORT}`);
