@@ -13,6 +13,12 @@ export const verifyEmail = async (token, email) => {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
       },
+      tls: {
+        rejectUnauthorized: false,
+      },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
     });
 
     const clientURL =
@@ -25,7 +31,7 @@ export const verifyEmail = async (token, email) => {
       to: email,
       subject: "Email Verification",
       text: `Verify your email:
-        ${clientURL}/verify/${token}`,
+${clientURL}/verify/${token}`,
     };
 
     const info = await transporter.sendMail(mailConfigurations);
