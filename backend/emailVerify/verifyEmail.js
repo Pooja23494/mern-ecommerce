@@ -1,29 +1,38 @@
 import nodemailer from "nodemailer";
-import "dotenv/config";
+import dotenv from "dotenv";
 
-export const verifyEmail = (token, email) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
-    },
-  });
+dotenv.config();
 
-  const mailConfigurations = {
-    from: process.env.MAIL_USER,
-    to: email,
-    subject: "Email Verification",
-    text: `Hi! There, You have recently visited 
-           our website and entered your email.
-           Please follow the given link to verify your email
-           http://localhost:5173/verify/${token} 
-           Thanks`,
-  };
+export const verifyEmail = async (token, email) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+      },
+    });
 
-  transporter.sendMail(mailConfigurations, function (error, info) {
-    if (error) throw Error(error);
+    // frontend url
+    const clientURL =
+      process.env.NODE_ENV === "production"
+        ? "https://mern-ecommerce-pooja.vercel.app"
+        : "http://localhost:5173";
+
+    const mailConfigurations = {
+      from: process.env.MAIL_USER,
+      to: email,
+      subject: "Email Verification",
+      text: `Hi! There, You have recently visited our website and entered your email.
+      Please click the link below to verify your email:
+      ${clientURL}/verify/${token} Thanks`,
+    };
+
+    const info = await transporter.sendMail(mailConfigurations);
+
     console.log("Email Sent Successfully");
     console.log(info);
-  });
+  } catch (error) {
+    console.log("MAIL ERROR:", error);
+  }
 };
