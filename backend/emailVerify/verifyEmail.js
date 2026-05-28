@@ -6,14 +6,15 @@ dotenv.config();
 export const verifyEmail = async (token, email) => {
   try {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
       },
     });
 
-    // frontend url
     const clientURL =
       process.env.NODE_ENV === "production"
         ? "https://mern-ecommerce-pooja.vercel.app"
@@ -23,9 +24,8 @@ export const verifyEmail = async (token, email) => {
       from: process.env.MAIL_USER,
       to: email,
       subject: "Email Verification",
-      text: `Hi! There, You have recently visited our website and entered your email.
-      Please click the link below to verify your email:
-      ${clientURL}/verify/${token} Thanks`,
+      text: `Verify your email:
+        ${clientURL}/verify/${token}`,
     };
 
     const info = await transporter.sendMail(mailConfigurations);
