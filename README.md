@@ -6,6 +6,11 @@ A full-stack MERN E-Commerce application with authentication, admin dashboard, c
 
 ---
 
+# Credentials
+
+* Email : poojaclass1994@gmail.com
+* password : Pooja@123
+
 # 🚀 Features
 
 ## 👤 User Features
